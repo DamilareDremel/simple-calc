@@ -1,34 +1,22 @@
-const apiUrl = 'https://calculator-api-1bto.onrender.com/api/calculate';
+async function calculate(operation) {
+    const num1 = document.getElementById("num1").value;
+    const num2 = document.getElementById("num2").value;
 
-const cors = require('cors');
-app.use(cors());
+    try {
+        const response = await fetch(`https://calculator-api-1bto.onrender.com/api/calculate/${operation}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ num1: Number(num1), num2: Number(num2) })
+        });
+        
+        const data = await response.json();
 
-function calculate(operation) {
-    const num1 = document.getElementById('num1').value;
-    const num2 = document.getElementById('num2').value;
-
-    if (!num1 || !num2) {
-        alert('Please enter both numbers');
-        return;
+        if (response.ok) {
+            document.getElementById("result").innerText = `Result: ${data.result}`;
+        } else {
+            document.getElementById("result").innerText = `Error: ${data.message}`;
+        }
+    } catch (error) {
+        document.getElementById("result").innerText = `Error occurred while calculating: ${error.message}`;
     }
-
-    fetch(`${apiUrl}/${operation}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            num1: parseFloat(num1),
-            num2: parseFloat(num2)
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Display the result in the result div
-        document.getElementById('result').textContent = `Result: ${data.result || data.error}`;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        document.getElementById('result').textContent = 'Error occurred while calculating';
-    });
 }

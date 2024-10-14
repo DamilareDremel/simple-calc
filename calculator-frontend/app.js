@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://calculator-api-1bto.onrender.com/api/calculate"; // Backend API URL
+const API_BASE_URL = "https://calculator-api-1bto.onrender.com/api/calculate";  // Backend API URL
 
 // Function to perform the calculation based on the operation
 async function calculate(operation, num1, num2) {

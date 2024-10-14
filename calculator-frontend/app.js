@@ -1,5 +1,8 @@
 const apiUrl = 'https://calculator-api-1bto.onrender.com/api/calculate';
 
+const cors = require('cors');
+app.use(cors());
+
 function calculate(operation) {
     const num1 = document.getElementById('num1').value;
     const num2 = document.getElementById('num2').value;

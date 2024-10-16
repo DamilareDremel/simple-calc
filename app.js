@@ -43,6 +43,10 @@ function handleCalculation(operation) {
 }
 
 // Adding event listeners to buttons for each operation
+document.getElementById('add').onclick = () => handleCalculation('add');
+document.getElementById('subtract').onclick = () => handleCalculation('subtract');
+document.getElementById('multiply').onclick = () => handleCalculation('multiply');
+document.getElementById('divide').onclick = () => handleCalculation('divide');
 document.getElementById('roundToTens').onclick = () => calculateRounding('nearest-10s');
 document.getElementById('roundToHundreds').onclick = () => calculateRounding('nearest-100s');
 document.getElementById('roundToThousands').onclick = () => calculateRounding('nearest-1000s');

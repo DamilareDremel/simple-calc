@@ -23,7 +23,7 @@ async function calculate(operation, num1, num2) {
   }
 }
 
-// Function to handle calculation button click
+// Function to handle button click and perform the corresponding calculation
 function handleCalculation(operation) {
   const num1 = parseFloat(document.getElementById('num1').value);
   const num2 = parseFloat(document.getElementById('num2').value);
@@ -42,45 +42,46 @@ function handleCalculation(operation) {
     });
 }
 
-// Function to perform rounding based on the operation
-async function roundResult(operation) {
-  const result = document.getElementById('result').textContent.split(':')[1].trim();
+// Function to handle rounding operations
+async function calculateRounding(roundType) {
+  const resultElement = document.getElementById('result');
+  const currentResult = parseFloat(resultElement.textContent.replace('Result: ', ''));
 
-  if (!result) {
-    document.getElementById('result').textContent = "Please perform a calculation first.";
+  if (isNaN(currentResult)) {
+    resultElement.textContent = "No result to round.";
     return;
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/${operation}`, {
+    const response = await fetch(`${API_BASE_URL}/${roundType}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ result: parseFloat(result) })
+      body: JSON.stringify({ result: currentResult })
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch');
+      throw new Error('Failed to fetch rounding');
     }
 
-    const data = await response.json();
-    document.getElementById('result').textContent = `Rounded Result: ${data.rounded}`;
+    const roundedResult = await response.json();
+    resultElement.textContent = `Rounded Result: ${roundedResult.result}`;
   } catch (error) {
-    document.getElementById('result').textContent = `Error occurred while rounding: ${error.message}`;
+    resultElement.textContent = `Error occurred while rounding: ${error.message}`;
   }
 }
 
-// Adding event listeners to calculation buttons for each operation
+// Binding event listeners to buttons
 document.getElementById('add').onclick = () => handleCalculation('add');
 document.getElementById('subtract').onclick = () => handleCalculation('subtract');
 document.getElementById('multiply').onclick = () => handleCalculation('multiply');
 document.getElementById('divide').onclick = () => handleCalculation('divide');
 
-// Adding event listeners to rounding buttons
-document.getElementById('round-to-tens').onclick = () => roundResult('round-to-tens');
-document.getElementById('round-to-hundreds').onclick = () => roundResult('round-to-hundreds');
-document.getElementById('round-to-thousands').onclick = () => roundResult('round-to-thousands');
-document.getElementById('round-to-tenths').onclick = () => roundResult('round-to-tenths');
-document.getElementById('round-to-hundredths').onclick = () => roundResult('round-to-hundredths');
-document.getElementById('round-to-thousandths').onclick = () => roundResult('round-to-thousandths');
+// Event listeners for rounding buttons
+document.getElementById('roundToTens').onclick = () => calculateRounding('roundToTens');
+document.getElementById('roundToHundreds').onclick = () => calculateRounding('roundToHundreds');
+document.getElementById('roundToThousands').onclick = () => calculateRounding('roundToThousands');
+document.getElementById('roundToTenths').onclick = () => calculateRounding('roundToTenths');
+document.getElementById('roundToHundredths').onclick = () => calculateRounding('roundToHundredths');
+document.getElementById('roundToThousandths').onclick = () => calculateRounding('roundToThousandths');

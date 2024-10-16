@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
+    <title>Simple Calculator</title>
+    <link rel="stylesheet" href="style.css"> <!-- Linking the CSS file -->
 </head>
 <body>
-    <h1>Simple Calculator</h1>
-    <label for="num1">Number 1:</label>
-    <input type="number" id="num1" required>
-    <br>
-    <label for="num2">Number 2:</label>
-    <input type="number" id="num2" required>
-    <br>
-    <button id="add">Add</button>
-    <button id="subtract">Subtract</button>
-    <button id="multiply">Multiply</button>
-    <button id="divide">Divide</button>
-    
-    <!-- This div will display the result -->
-    <div id="result"></div>
+    <div class="calculator">
+        <h1>Simple Calculator</h1>
+        <input type="number" id="num1" placeholder="Enter number 1" required>
+        <input type="number" id="num2" placeholder="Enter number 2" required>
 
-    <h3>Round the Result:</h3>
-    <button id="round-to-tens">Round to Tens</button>
-    <button id="round-to-hundreds">Round to Hundreds</button>
-    <button id="round-to-thousands">Round to Thousands</button>
-    <button id="round-to-tenths">Round to Tenths</button>
-    <button id="round-to-hundredths">Round to Hundredths</button>
-    <button id="round-to-thousandths">Round to Thousandths</button>
+        <div class="buttons">
+            <button id="add">+</button>
+            <button id="subtract">−</button>
+            <button id="multiply">×</button>
+            <button id="divide">÷</button>
+        </div>
 
-    
+        <!-- Additional buttons for rounding -->
+<h3>Round Result:</h3>
+<div class="buttons">
+    <button id="roundToTens">10s</button>
+    <button id="roundToHundreds">100s</button>
+    <button id="roundToThousands">1000s</button>
+    <button id="roundToTenths">10th</button>
+    <button id="roundToHundredths">100th</button>
+    <button id="roundToThousandths">1000th</button>
+</div>
+
+        <!-- This div will display the result -->
+        <div id="result" class="result-display">Result will appear here</div>
+    </div>
+
+    <p class="credit">A project by <strong>Damilare Fagbenro T.</strong></p>
 
     <script src="app.js"></script>
-    <p style="text-align: center;">A project by <strong style="font-size: 125%;">Damilare Fagbenro T.</strong></p>
-
 </body>
 </html>

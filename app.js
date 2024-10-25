@@ -47,8 +47,9 @@ async function calculateRounding(route) {
         const data = await response.json();
 
         if (response.ok) {
-            document.getElementById('result').textContent = `Rounded Result: ${data.rounded}`;
-        } else {
+            document.getElementById('result').textContent = `Rounded Result: ${data.result}`; // Change 'rounded' to 'result'
+        }
+         else {
             alert('Error occurred while rounding the result.');
         }
     } catch (error) {

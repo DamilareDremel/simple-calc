@@ -25,6 +25,7 @@ async function calculate(operation, num1, num2) {
 
 // Function to perform rounding based on place value
 async function calculateRounding(route) {
+    console.log(`Rounding route: ${route}`); // Add this line
     const resultElement = document.getElementById('result').textContent;
 
     // Extract the numerical result from the displayed text
@@ -47,9 +48,8 @@ async function calculateRounding(route) {
         const data = await response.json();
 
         if (response.ok) {
-            document.getElementById('result').textContent = `Rounded Result: ${data.result}`; // Change 'rounded' to 'result'
-        }
-         else {
+            document.getElementById('result').textContent = `Rounded Result: ${data.result}`; // Use `data.result`
+        } else {
             alert('Error occurred while rounding the result.');
         }
     } catch (error) {
@@ -83,11 +83,11 @@ document.getElementById('subtract').onclick = () => handleCalculation('subtract'
 document.getElementById('multiply').onclick = () => handleCalculation('multiply');
 document.getElementById('divide').onclick = () => handleCalculation('divide');
 
-// Event listeners for rounding buttons
-document.getElementById('roundToTens').onclick = () => calculateRounding('nearest-10s');
-document.getElementById('roundToHundreds').onclick = () => calculateRounding('nearest-100s');
-document.getElementById('roundToThousands').onclick = () => calculateRounding('nearest-1000s');
-document.getElementById('roundToTenths').onclick = () => calculateRounding('nearest-10th');
-document.getElementById('roundToHundredths').onclick = () => calculateRounding('nearest-100th');
-document.getElementById('roundToThousandths').onclick = () => calculateRounding('nearest-1000th');
+// Corrected event listeners for rounding buttons
+document.getElementById('nearest-10s').onclick = () => calculateRounding('nearest-10s');
+document.getElementById('nearest-100s').onclick = () => calculateRounding('nearest-100s');
+document.getElementById('nearest-1000s').onclick = () => calculateRounding('nearest-1000s');
+document.getElementById('nearest-10th').onclick = () => calculateRounding('nearest-10th');
+document.getElementById('nearest-100th').onclick = () => calculateRounding('nearest-100th');
+document.getElementById('nearest-1000th').onclick = () => calculateRounding('nearest-1000th');
 

@@ -89,3 +89,4 @@ document.getElementById('roundToThousands').onclick = () => calculateRounding('n
 document.getElementById('roundToTenths').onclick = () => calculateRounding('nearest-10th');
 document.getElementById('roundToHundredths').onclick = () => calculateRounding('nearest-100th');
 document.getElementById('roundToThousandths').onclick = () => calculateRounding('nearest-1000th');
+

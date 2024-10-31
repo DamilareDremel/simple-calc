@@ -2,26 +2,26 @@ const API_BASE_URL = "https://calculator-api-1bto.onrender.com/api/calculate";  
 
 // Function to perform basic operations (add, subtract, multiply, divide)
 async function calculate(operation, num1, num2) {
+    const resultElement = document.getElementById('result');
+    resultElement.textContent = "Calculating..."; // Show loading message
+
     try {
         const response = await fetch(`${API_BASE_URL}/${operation}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ num1, num2 })
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch');
-        }
-
+        if (!response.ok) throw new Error('Failed to fetch');
+        
         const result = await response.json();
-        return result.result; // Assuming the result is returned as { result: <value> }
+        resultElement.textContent = `Result: ${result.result}`; // Update with result
     } catch (error) {
         console.error("Error occurred while calculating:", error);
-        throw error;
+        resultElement.textContent = `Error occurred while calculating: ${error.message}`;
     }
 }
+
 
 // Function to perform rounding based on place value
 async function calculateRounding(route) {

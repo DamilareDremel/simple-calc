@@ -13,42 +13,50 @@ async function calculate(operation, num1, num2) {
         });
 
         if (!response.ok) throw new Error('Failed to fetch');
-        
-        const result = await response.json();
-        resultElement.textContent = `Result: ${result.result}`; // Update with result
+
+        const data = await response.json();
+        console.log("Received data:", data); // Debugging line
+
+        // Check if result exists in the response
+        if (data && typeof data.result !== "undefined") {
+            resultElement.textContent = `Result: ${data.result}`;
+        } else {
+            console.error("Unexpected response format:", data);
+            resultElement.textContent = "Error: Unexpected response format";
+        }
     } catch (error) {
         console.error("Error occurred while calculating:", error);
-        resultElement.textContent = `Error occurred while calculating: ${error.message}`;
+        resultElement.textContent = `Error: ${error.message}`;
     }
 }
 
-
 // Function to perform rounding based on place value
 async function calculateRounding(route) {
-    console.log(`Rounding route: ${route}`); // Add this line
-    const resultElement = document.getElementById('result').textContent;
+    const resultElement = document.getElementById('result');
+    const resultText = resultElement.textContent;
 
     // Extract the numerical result from the displayed text
-    const result = parseFloat(resultElement.replace("Result: ", ""));
+    const result = parseFloat(resultText.replace("Result: ", ""));
 
     if (isNaN(result)) {
-        document.getElementById('result').textContent = "Please calculate a result first.";
+        resultElement.textContent = "Please calculate a result first.";
         return;
     }
+
+    resultElement.textContent = "Rounding..."; // Show loading message for rounding
 
     try {
         const response = await fetch(`${API_BASE_URL}/${route}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ result }) // Send the result to backend
         });
 
         const data = await response.json();
+        console.log("Rounding response data:", data); // Debugging line
 
-        if (response.ok) {
-            document.getElementById('result').textContent = `Rounded Result: ${data.result}`; // Use `data.result`
+        if (response.ok && data && typeof data.result !== "undefined") {
+            resultElement.textContent = `Rounded Result: ${data.result}`;
         } else {
             alert('Error occurred while rounding the result.');
         }
@@ -68,13 +76,7 @@ function handleCalculation(operation) {
         return;
     }
 
-    calculate(operation, num1, num2)
-        .then(result => {
-            document.getElementById('result').textContent = `Result: ${result}`;
-        })
-        .catch(error => {
-            document.getElementById('result').textContent = `Error occurred while calculating: ${error.message}`;
-        });
+    calculate(operation, num1, num2); // Directly call calculate function without .then
 }
 
 // Adding event listeners to buttons for each operation
@@ -90,4 +92,3 @@ document.getElementById('nearest-1000s').onclick = () => calculateRounding('near
 document.getElementById('nearest-10th').onclick = () => calculateRounding('nearest-10th');
 document.getElementById('nearest-100th').onclick = () => calculateRounding('nearest-100th');
 document.getElementById('nearest-1000th').onclick = () => calculateRounding('nearest-1000th');
-

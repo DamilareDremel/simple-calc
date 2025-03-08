@@ -3,44 +3,30 @@ const API_BASE_URL = "https://calculator-api-1bto.onrender.com/api/calculate";  
 // Function to perform basic operations (add, subtract, multiply, divide)
 async function calculate(operation, num1, num2) {
     const resultElement = document.getElementById('result');
-    resultElement.textContent = "Calculating..."; 
+    resultElement.textContent = "Calculating..."; // Show loading message
 
     try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 sec timeout
-
-        const response = await fetch(`${API_BASE_URL}/${operation}`, {
+        const response = await fetch(${API_BASE_URL}/${operation}, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ num1, num2 }),
-            signal: controller.signal
+            body: JSON.stringify({ num1, num2 })
         });
 
-        clearTimeout(timeoutId); // Clear timeout if request succeeds
-
         if (!response.ok) throw new Error('Failed to fetch');
-
-        const data = await response.json();
-        resultElement.textContent = `Result: ${data.result}`;
-    } catch (error) {
-        resultElement.textContent = `Error: ${error.message}`;
-        console.error(error);
-    }
-}
 
         const data = await response.json();
         console.log("Received data:", data); // Debugging line
 
         // Check if result exists in the response
         if (data && typeof data.result !== "undefined") {
-            resultElement.textContent = `Result: ${data.result}`;
+            resultElement.textContent = Result: ${data.result};
         } else {
             console.error("Unexpected response format:", data);
             resultElement.textContent = "Error: Unexpected response format";
         }
     } catch (error) {
         console.error("Error occurred while calculating:", error);
-        resultElement.textContent = `Error: ${error.message}`;
+        resultElement.textContent = Error: ${error.message};
     }
 }
 
@@ -60,7 +46,7 @@ async function calculateRounding(route) {
     resultElement.textContent = "Rounding..."; // Show loading message for rounding
 
     try {
-        const response = await fetch(`${API_BASE_URL}/${route}`, {
+        const response = await fetch(${API_BASE_URL}/${route}, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ result }) // Send the result to backend
@@ -70,7 +56,7 @@ async function calculateRounding(route) {
         console.log("Rounding response data:", data); // Debugging line
 
         if (response.ok && data && typeof data.result !== "undefined") {
-            resultElement.textContent = `Rounded Result: ${data.result}`;
+            resultElement.textContent = Rounded Result: ${data.result};
         } else {
             alert('Error occurred while rounding the result.');
         }

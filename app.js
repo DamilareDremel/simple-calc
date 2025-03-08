@@ -3,16 +3,30 @@ const API_BASE_URL = "https://calculator-api-1bto.onrender.com/api/calculate";  
 // Function to perform basic operations (add, subtract, multiply, divide)
 async function calculate(operation, num1, num2) {
     const resultElement = document.getElementById('result');
-    resultElement.textContent = "Calculating..."; // Show loading message
+    resultElement.textContent = "Calculating..."; 
 
     try {
-        const response = await fetch(${API_BASE_URL}/${operation}, {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 sec timeout
+
+        const response = await fetch(`${API_BASE_URL}/${operation}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ num1, num2 })
+            body: JSON.stringify({ num1, num2 }),
+            signal: controller.signal
         });
 
+        clearTimeout(timeoutId); // Clear timeout if request succeeds
+
         if (!response.ok) throw new Error('Failed to fetch');
+
+        const data = await response.json();
+        resultElement.textContent = `Result: ${data.result}`;
+    } catch (error) {
+        resultElement.textContent = `Error: ${error.message}`;
+        console.error(error);
+    }
+}
 
         const data = await response.json();
         console.log("Received data:", data); // Debugging line
